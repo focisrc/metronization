@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
 
+import ehtplot
+
 from matplotlib         import pyplot as plt
 from skimage.morphology import skeletonize
 

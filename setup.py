@@ -34,5 +34,6 @@ setup(
         'matplotlib>=2.2.3',
         'numpy>=1.15',
         'scikit-image>=0.14',
+        'ehtplot',
     ],
 )
