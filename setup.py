@@ -35,5 +35,6 @@ setup(
         'numpy>=1.15',
         'scikit-image>=0.14',
         'ehtplot',
+        'dionysus',
     ],
 )
