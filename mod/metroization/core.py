@@ -16,68 +16,41 @@
 # You should have received a copy of the GNU General Public License
 # along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
 
-import numpy as np
-
 from skimage.morphology import skeletonize
 
-def rebin(img, shape=[32, 32]):
-    reshape = (shape[0], img.shape[0]//shape[0],
-               shape[1], img.shape[1]//shape[1])
-    return img.reshape(reshape).max(-1).max(1)
+from .utils import *
+from .viz   import *
 
-def scale_threshold(img, threshold=0.5):
-    threshold *= np.sum(img)
-    s = np.sort(img.flatten())
-    i = np.searchsorted(np.cumsum(s), threshold, side="left")
-    return s[i]
+def metroize(img, mgrid, threshold=0.5, plot=False):
 
-def metroize(img, mgrid=32, threshold=0.5):
-    threshold = scale_threshold(img, threshold=threshold)
-    img = skeletonize(img > threshold)
-    img = skeletonize(rebin(img, [mgrid, mgrid]) > 0)
+    if plot:
+        import ehtplot
+        from matplotlib import pyplot as plt
+        fig, axes = plt.subplots(2,3, figsize=(12,8))
+        axes[0][0].imshow(img.T, origin='lower', cmap='afmhot_10u', interpolation=None)
+        axes[0][0].set_title('0. Original')
+
+    img = img > scale_threshold(img, threshold=threshold)
+    if plot:
+        axes[0][1].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
+        axes[0][1].set_title('1. Robust Thresholding')
+
+    img = skeletonize(img)
+    if plot:
+        axes[0][2].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
+        axes[0][2].set_title('2. Skeleton')
+
+    img = rebin(img, [mgrid, mgrid]) > 0
+    if plot:
+        axes[1][0].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
+        axes[1][0].set_title('3. Max Pooling')
+
+    img = skeletonize(img)
+    if plot:
+        axes[1][1].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
+        axes[1][1].set_title('4. Reskeleton')
+
+        metroplot(axes[1][2], img)
+        axes[1][2].set_title('5. Metroize')
+
     return img
-
-def metroplot(ax, img, **kwargs):
-    s0 = img.shape[0]
-    s1 = img.shape[1]
-    for i in range(s0):
-        for j in range(s1):
-            if not img[i,j]:
-                continue
-
-            c = 0
-            for ii in [i-1,i,i+1]:
-                for jj in [j-1,j,j+1]:
-                    if ii == i and jj == j:
-                        continue
-                    if ii < 0 or ii >= s0:
-                        continue
-                    if jj < 0 or jj >= s1:
-                        continue
-                    if img[ii,jj]:
-                        if ii != i and jj != j:
-                            if img[ii,j] or img[i,jj]:
-                                continue
-                        ax.plot([i+0.5,(ii-i)/2+i+0.5],
-                                [j+0.5,(jj-j)/2+j+0.5],
-                                color='k')
-                        c += 1
-            if c == 0:
-                ax.plot([i+0.5], [j+0.5], marker='.', color='k')
-
-    ax.set_aspect('equal')
-
-    ax.set_xlim([0, s0])
-    ax.set_ylim([0, s1])
-
-    ax.set_xticks(np.arange(0, s0+1, 4))
-    ax.set_xticks(np.arange(0, s0+1, 1), minor=True)
-    ax.set_yticks(np.arange(0, s1+1, 4))
-    ax.set_yticks(np.arange(0, s1+1, 1), minor=True)
-    ax.grid(axis='both')
-    ax.grid(which='minor', alpha=0.2)
-    ax.grid(which='major', alpha=0.5)
-
-    ax.tick_params(axis='both', which='both',
-                   top=False, bottom=False, labelbottom=False,
-                   left=False, right=False, labelleft=False)
