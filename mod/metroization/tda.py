@@ -35,7 +35,7 @@ def pull(dgm, verbose=True):
 
     return deaths - births
 
-def tda(pts, plot=True, verbose=True):
+def tda(pts, plot=False, verbose=False):
 
     f = d.fill_rips(pts, 2, 10)
     p = d.homology_persistence(f)
