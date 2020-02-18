@@ -58,22 +58,22 @@ def metroplot(ax, img, **kwargs):
                         if ii != i and jj != j:
                             if img[ii,j] or img[i,jj]:
                                 continue
-                        ax.plot([j+0.5,(jj-j)/2+j+0.5],
-                                [i+0.5,(ii-i)/2+i+0.5],
+                        ax.plot([i+0.5,(ii-i)/2+i+0.5],
+                                [j+0.5,(jj-j)/2+j+0.5],
                                 color='k')
                         c += 1
             if c == 0:
-                ax.plot([j+0.5], [i+0.5], marker='.', color='k')
+                ax.plot([i+0.5], [j+0.5], marker='.', color='k')
 
     ax.set_aspect('equal')
 
-    ax.set_xlim([0, s1])
-    ax.set_ylim([0, s0])
+    ax.set_xlim([0, s0])
+    ax.set_ylim([0, s1])
 
-    ax.set_xticks(np.arange(0, s1+1, 4))
-    ax.set_xticks(np.arange(0, s1+1, 1), minor=True)
-    ax.set_yticks(np.arange(0, s0+1, 4))
-    ax.set_yticks(np.arange(0, s0+1, 1), minor=True)
+    ax.set_xticks(np.arange(0, s0+1, 4))
+    ax.set_xticks(np.arange(0, s0+1, 1), minor=True)
+    ax.set_yticks(np.arange(0, s1+1, 4))
+    ax.set_yticks(np.arange(0, s1+1, 1), minor=True)
     ax.grid(axis='both')
     ax.grid(which='minor', alpha=0.2)
     ax.grid(which='major', alpha=0.5)

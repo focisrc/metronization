@@ -27,23 +27,23 @@ def inspect(img, mgrid, threshold):
 
     fig, axes = plt.subplots(2,3, figsize=(12,8))
 
-    axes[0][0].imshow(img, origin='lower', cmap='afmhot_10u', interpolation=None)
+    axes[0][0].imshow(img.T, origin='lower', cmap='afmhot_10u', interpolation=None)
     axes[0][0].set_title('0. Original')
 
     img = img > scale_threshold(img, threshold=threshold)
-    axes[0][1].imshow(img, origin='lower', cmap='gray_r', interpolation=None)
+    axes[0][1].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
     axes[0][1].set_title('1. Robust Thresholding')
 
     img = skeletonize(img)
-    axes[0][2].imshow(img, origin='lower', cmap='gray_r', interpolation=None)
+    axes[0][2].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
     axes[0][2].set_title('2. Skeleton')
 
     img = rebin(img, [mgrid, mgrid]) > 0
-    axes[1][0].imshow(img, origin='lower', cmap='gray_r', interpolation=None)
+    axes[1][0].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
     axes[1][0].set_title('3. Max Pooling')
 
     img = skeletonize(img)
-    axes[1][1].imshow(img, origin='lower', cmap='gray_r', interpolation=None)
+    axes[1][1].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
     axes[1][1].set_title('4. Reskeleton')
 
     metroplot(axes[1][2], img)
