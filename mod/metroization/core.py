@@ -56,7 +56,4 @@ def metroize(img, mgrid, threshold=0.5, plot=False):
         metroplot(axes[1][2], img)
         axes[1][2].set_title('5. Metroize')
 
-    X, Y = np.meshgrid(np.arange(img.shape[0]),
-                       np.arange(img.shape[1]), indexing='ij')
-
-    return tda(np.vstack((X[img], Y[img])).T.astype('float'), plot=plot)
+    return tda(np.array(np.where(img)).T.astype(float), plot=plot)
