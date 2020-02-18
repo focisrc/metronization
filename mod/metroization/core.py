@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
 
+import numpy as np
+
 from skimage.morphology import skeletonize
 
-from .utils import *
-from .viz   import *
-from .tda   import *
+from .utils import rebin, scale_threshold
+from .viz   import metroplot
+from .tda   import tda
 
 def metroize(img, mgrid, threshold=0.5, plot=False):
 

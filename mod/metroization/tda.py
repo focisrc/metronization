@@ -16,11 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
 
-from matplotlib import pyplot as plt
-
+import numpy    as np
 import dionysus as d
-
-from .core import *
 
 def pull(dgm, verbose=True):
 
@@ -45,6 +42,7 @@ def tda(pts, plot=True, verbose=True):
     dgms = d.init_diagrams(p, f)
 
     if plot:
+        from matplotlib import pyplot as plt
         fig, axes = plt.subplots(1,2, figsize=(12,6))
         d.plot.plot_bars(dgms[0], ax=axes[0])
         try:
