@@ -20,6 +20,7 @@ from skimage.morphology import skeletonize
 
 from .utils import *
 from .viz   import *
+from .tda   import *
 
 def metroize(img, mgrid, threshold=0.5, plot=False):
 
@@ -53,4 +54,7 @@ def metroize(img, mgrid, threshold=0.5, plot=False):
         metroplot(axes[1][2], img)
         axes[1][2].set_title('5. Metroize')
 
-    return img
+    X, Y = np.meshgrid(np.arange(img.shape[0]),
+                       np.arange(img.shape[1]), indexing='ij')
+
+    return tda(np.vstack((X[img], Y[img])).T.astype('float'), plot=plot)
