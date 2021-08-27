@@ -64,3 +64,9 @@ def metroize(img, grid, threshold=None, plot=False):
         threshold = np.linspace(0, 1, 10, endpoint=False)
 
     return {t:metroize_at(img, grid, t, plot=plot) for t in threshold}
+
+def topo(img, grid, plength, hlength, plot=False):
+    ''' Output is {threshold:(how many points, how many holes)} '''
+    return {t:(np.count_nonzero(p > plength),
+               np.count_nonzero(h > hlength))
+            for t, (p, h) in metroize(img, grid, plot=plot).items()}
