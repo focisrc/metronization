@@ -24,7 +24,7 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda
 
-def metroize(img, mgrid, threshold=0.5, plot=False):
+def metroize_at(img, grid, threshold, plot=False):
 
     if plot:
         import ehtplot
@@ -43,7 +43,7 @@ def metroize(img, mgrid, threshold=0.5, plot=False):
         axes[0][2].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
         axes[0][2].set_title('2. Skeleton')
 
-    img = rebin(img, [mgrid, mgrid]) > 0
+    img = rebin(img, [grid, grid]) > 0
     if plot:
         axes[1][0].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
         axes[1][0].set_title('3. Max Pooling')
@@ -57,3 +57,10 @@ def metroize(img, mgrid, threshold=0.5, plot=False):
         axes[1][2].set_title('5. Metroize')
 
     return tda(np.array(np.where(img)).T.astype(float), plot=plot)
+
+def metroize(img, grid, threshold=None, plot=False):
+
+    if threshold == None:
+        threshold = np.linspace(0, 1, 10, endpoint=False)
+
+    return {t:metroize_at(img, grid, t, plot=plot) for t in threshold}
