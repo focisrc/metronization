@@ -63,7 +63,7 @@ def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     return np.array(np.where(img)).T
 
-def topo(img, ngrid, plength, hlength, plot=False, axes=None):
+def toposign(img, ngrid, plength, hlength, plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -72,8 +72,8 @@ def topo(img, ngrid, plength, hlength, plot=False, axes=None):
         if axes is None:
             from matplotlib import pyplot as plt
             fig, axes = plt.subplots(1,2, figsize=(12,6))
-            axes[0].axvline(x=plength)
-            axes[1].axvline(x=hlength)
+            axes[0].axvline(x=plength, color='k', linestyle=':')
+            axes[1].axvline(x=hlength, color='k', linestyle=':')
 
     out = {}
 
