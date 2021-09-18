@@ -24,7 +24,7 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda
 
-def metroize_at(img, grid, threshold, plot=False):
+def metroize_at(img, ngrid, threshold, plot=False):
 
     if plot:
         import ehtplot
@@ -43,7 +43,7 @@ def metroize_at(img, grid, threshold, plot=False):
         axes[0][2].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
         axes[0][2].set_title('2. Skeleton')
 
-    img = rebin(img, [grid, grid]) > 0
+    img = rebin(img, [ngrid, ngrid]) > 0
     if plot:
         axes[1][0].imshow(img.T, origin='lower', cmap='gray_r', interpolation=None)
         axes[1][0].set_title('3. Max Pooling')
@@ -58,15 +58,15 @@ def metroize_at(img, grid, threshold, plot=False):
 
     return tda(np.array(np.where(img)).T.astype(float), plot=plot)
 
-def metroize(img, grid, threshold=None, plot=False):
+def metroize(img, ngrid, threshold=None, plot=False):
 
     if threshold == None:
         threshold = np.linspace(0, 1, 10, endpoint=False)
 
-    return {t:metroize_at(img, grid, t, plot=plot) for t in threshold}
+    return {t:metroize_at(img, ngrid, t, plot=plot) for t in threshold}
 
-def topo(img, grid, plength, hlength, plot=False):
+def topo(img, ngrid, plength, hlength, plot=False):
     ''' Output is {threshold:(how many points, how many holes)} '''
     return {t:(np.count_nonzero(p > plength),
                np.count_nonzero(h > hlength))
-            for t, (p, h) in metroize(img, grid, plot=plot).items()}
+            for t, (p, h) in metroize(img, ngrid, plot=plot).items()}
