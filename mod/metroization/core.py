@@ -24,12 +24,17 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda
 
-def metroize_at(img, ngrid, threshold, plot=False):
+def metroize_at(img, ngrid, threshold=0.5, plot=False, axes=None):
+
+    if axes is not None:
+        plot = True
 
     if plot:
-        import ehtplot
-        from matplotlib import pyplot as plt
-        fig, axes = plt.subplots(2,3, figsize=(12,8))
+        if axes is None:
+            import ehtplot
+            from matplotlib import pyplot as plt
+            fig, axes = plt.subplots(2,3, figsize=(12,8))
+
         axes[0][0].imshow(img.T, origin='lower', cmap='afmhot_10u', interpolation=None)
         axes[0][0].set_title('0. Original')
 
