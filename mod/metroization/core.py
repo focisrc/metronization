@@ -24,7 +24,7 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda
 
-def metroize_at(img, ngrid, threshold=0.5, plot=False, axes=None):
+def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -61,17 +61,16 @@ def metroize_at(img, ngrid, threshold=0.5, plot=False, axes=None):
         metroplot(axes[1][2], img)
         axes[1][2].set_title('5. Metroize')
 
-    return tda(np.array(np.where(img)).T.astype(float), plot=plot)
+    return np.array(np.where(img)).T
 
-def metroize(img, ngrid, threshold=None, plot=False):
+def topo(img, ngrid, plength, hlength, **kwargs):
 
-    if threshold == None:
-        threshold = np.linspace(0, 1, 10, endpoint=False)
+    out = {}
 
-    return {t:metroize_at(img, ngrid, t, plot=plot) for t in threshold}
+    for t in np.linspace(0, 1, 10, endpoint=False):
+        pts    = metroize(img, ngrid, t).astype(float)
+        p, h   = tda(pts, **kwargs)
+        out[t] = (np.count_nonzero(p > plength),
+                  np.count_nonzero(h > hlength))
 
-def topo(img, ngrid, plength, hlength, plot=False):
-    ''' Output is {threshold:(how many points, how many holes)} '''
-    return {t:(np.count_nonzero(p > plength),
-               np.count_nonzero(h > hlength))
-            for t, (p, h) in metroize(img, ngrid, plot=plot).items()}
+    return out
