@@ -35,20 +35,25 @@ def pull(dgm, verbose=True):
 
     return deaths - births
 
-def tda(pts, plot=False, verbose=False):
+def tda(pts, plot=False, axes=None, verbose=False):
 
     f = d.fill_rips(pts, 2, 10)
     p = d.homology_persistence(f)
     dgms = d.init_diagrams(p, f)
 
+    if axes is not None:
+        plot = True
+
     if plot:
-        from matplotlib import pyplot as plt
-        fig, axes = plt.subplots(1,2, figsize=(12,6))
-        d.plot.plot_bars(dgms[0], ax=axes[0])
-        try:
-            d.plot.plot_bars(dgms[1], ax=axes[1])
-        except:
-            print("Metroize output not TDA-able")
+        if axes is None:
+            from matplotlib import pyplot as plt
+            fig, axes = plt.subplots(1,2, figsize=(12,6))
+
+        for i in range(2):
+            try:
+                d.plot.plot_bars(dgms[i], ax=axes[i])
+            except:
+                print("Metroize output not TDA-able with Bettie number", i)
 
     points = pull(dgms[0], verbose=verbose)
     holes  = pull(dgms[1], verbose=verbose)
