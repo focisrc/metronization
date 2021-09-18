@@ -17,4 +17,3 @@
 # along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
 
 from .core import *
-from .viz  import *
