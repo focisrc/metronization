@@ -1,5 +1,5 @@
-# Copyright (C) 2018 Chi-kwan Chan
-# Copyright (C) 2018 Steward Observatory
+# Copyright (C) 2018, 2021 Pierre Christian and Chi-kwan Chan
+# Copyright (C) 2018, 2021 Fairfield University and Steward Observatory
 #
 # This file is part of `metroization`.
 #

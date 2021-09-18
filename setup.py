@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2018 Chi-kwan Chan
-# Copyright (C) 2018 Steward Observatory
+# Copyright (C) 2018, 2021 Pierre Christian and Chi-kwan Chan
+# Copyright (C) 2018, 2021 Fairfield University and Steward Observatory
 #
 # This file is part of `metroization`.
 #
@@ -24,9 +24,9 @@ setup(
     name='metroization',
     version='0.1.0',
     url='https://github.com/focisrc/metroization',
-    author='Chi-kwan Chan',
-    author_email='chanc@email.arizona.edu',
-    description='Image-domain feature extraction methods',
+    author='Pierre Christian and Chi-kwan Chan',
+    author_email='pierre.christian@gmail.com',
+    description='Image-domain topological feature extraction',
     packages=find_packages('mod'),
     package_dir={'': 'mod'},
     python_requires='>=3.6', # `metroization` uses python3's f-string and typing
