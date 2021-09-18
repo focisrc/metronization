@@ -63,13 +63,23 @@ def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     return np.array(np.where(img)).T
 
-def topo(img, ngrid, plength, hlength, **kwargs):
+def topo(img, ngrid, plength, hlength, plot=False, axes=None):
+
+    if axes is not None:
+        plot = True
+
+    if plot:
+        if axes is None:
+            from matplotlib import pyplot as plt
+            fig, axes = plt.subplots(1,2, figsize=(12,6))
+            axes[0].axvline(x=plength)
+            axes[1].axvline(x=hlength)
 
     out = {}
 
-    for t in np.linspace(0, 1, 10, endpoint=False):
+    for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
         pts    = metroize(img, ngrid, t).astype(float)
-        p, h   = tda(pts, **kwargs)
+        p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
         out[t] = (np.count_nonzero(p > plength),
                   np.count_nonzero(h > hlength))
 

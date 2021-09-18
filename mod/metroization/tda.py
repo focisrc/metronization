@@ -35,7 +35,7 @@ def pull(dgm, verbose=True):
 
     return deaths - births
 
-def tda(pts, plot=False, axes=None, verbose=False):
+def tda(pts, plot=False, axes=None, verbose=False, **kwargs):
 
     f = d.fill_rips(pts, 2, 10)
     p = d.homology_persistence(f)
@@ -51,7 +51,7 @@ def tda(pts, plot=False, axes=None, verbose=False):
 
         for i in range(2):
             try:
-                d.plot.plot_bars(dgms[i], ax=axes[i])
+                d.plot.plot_bars(dgms[i], ax=axes[i], **kwargs)
             except:
                 print("Metroize output not TDA-able with Bettie number", i)
 
