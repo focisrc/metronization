@@ -53,7 +53,7 @@ def tda(pts, plot=False, axes=None, verbose=False, **kwargs):
             try:
                 d.plot.plot_bars(dgms[i], ax=axes[i], **kwargs)
             except:
-                print("Metroize output not TDA-able with Bettie number", i)
+                print("Metroize output not TDA-able with Betti number", i)
 
     points = pull(dgms[0], verbose=verbose)
     holes  = pull(dgms[1], verbose=verbose)
