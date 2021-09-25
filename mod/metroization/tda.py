@@ -59,3 +59,7 @@ def tda(pts, plot=False, axes=None, verbose=False, **kwargs):
     holes  = pull(dgms[1], verbose=verbose)
 
     return points, holes
+
+def count(births, deaths, lifespan):
+
+    return np.count_nonzero(deaths - births >= lifespan)

@@ -22,7 +22,7 @@ from skimage.morphology import skeletonize
 
 from .utils import rebin, scale_threshold
 from .viz   import metroplot
-from .tda   import tda
+from .tda   import tda, count
 
 def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
@@ -63,7 +63,7 @@ def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     return np.array(np.where(img)).T
 
-def toposign(img, ngrid, plength, hlength, plot=False, axes=None):
+def toposign(img, ngrid, plength=1.5, hlength=4, plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -80,7 +80,7 @@ def toposign(img, ngrid, plength, hlength, plot=False, axes=None):
     for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
         pts    = metroize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
-        out[t] = (np.count_nonzero(p[1] - p[0] > plength),
-                  np.count_nonzero(h[1] - h[0] > hlength))
+        out[t] = (count(*p, plength),
+                  count(*h, hlength))
 
     return out
