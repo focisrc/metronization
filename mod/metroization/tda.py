@@ -33,7 +33,7 @@ def pull(dgm, verbose=True):
         print(deaths)
         print(deaths - births)
 
-    return deaths - births
+    return births, deaths
 
 def tda(pts, plot=False, axes=None, verbose=False, **kwargs):
 

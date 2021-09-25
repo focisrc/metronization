@@ -80,7 +80,7 @@ def toposign(img, ngrid, plength, hlength, plot=False, axes=None):
     for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
         pts    = metroize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
-        out[t] = (np.count_nonzero(p > plength),
-                  np.count_nonzero(h > hlength))
+        out[t] = (np.count_nonzero(p[1] - p[0] > plength),
+                  np.count_nonzero(h[1] - h[0] > hlength))
 
     return out
