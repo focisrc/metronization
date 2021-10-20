@@ -21,12 +21,8 @@ import dionysus as d
 
 def pull(dgm, verbose=True):
 
-    try:
-        births = np.array([pt.birth for pt in dgm])
-        deaths = np.array([pt.death for pt in dgm])
-    except:
-        births = np.array([])
-        deaths = np.array([])
+    births = np.array([pt.birth for pt in dgm])
+    deaths = np.array([pt.death for pt in dgm])
 
     if verbose:
         print(births)
@@ -55,8 +51,15 @@ def tda(pts, plot=False, axes=None, verbose=False, **kwargs):
             except:
                 print("Metronize output not TDA-able with Betti number", i)
 
-    points = pull(dgms[0], verbose=verbose)
-    holes  = pull(dgms[1], verbose=verbose)
+    try:
+        points = pull(dgms[0], verbose=verbose)
+    except:
+        points = np.array([]), np.array([])
+
+    try:
+        holes  = pull(dgms[1], verbose=verbose)
+    except:
+        holes  = np.array([]), np.array([])
 
     return points, holes
 
