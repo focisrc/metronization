@@ -1,20 +1,20 @@
 # Copyright (C) 2018, 2021 Pierre Christian and Chi-kwan Chan
 # Copyright (C) 2018, 2021 Fairfield University and Steward Observatory
 #
-# This file is part of `metroization`.
+# This file is part of `metronization`.
 #
-# `Metroization` is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# `Metronization` is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
 #
-# `Metroization` is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
+# `Metronization` is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with `metroization`.  If not, see <http://www.gnu.org/licenses/>.
+# along with `metronization`.  If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
 
@@ -24,7 +24,7 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda, count
 
-def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
+def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -59,7 +59,7 @@ def metroize(img, ngrid, threshold=0.5, plot=False, axes=None):
         axes[1][1].set_title('4. Reskeleton')
 
         metroplot(axes[1][2], img)
-        axes[1][2].set_title('5. Metroize')
+        axes[1][2].set_title('5. Metronize')
 
     return np.array(np.where(img)).T
 
@@ -78,7 +78,7 @@ def toposign(img, ngrid, plength=1.5, hlength=4, plot=False, axes=None):
     out = {}
 
     for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
-        pts    = metroize(img, ngrid, t).astype(float)
+        pts    = metronize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
         out[t] = (count(*p, plength),
                   count(*h, hlength))
