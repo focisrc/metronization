@@ -64,9 +64,21 @@ def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
     return np.array(np.where(img)).T
 
 def toposign(img, ngrid,
-             pbirth=0,          plength=np.sqrt(2),
-             hbirth=np.sqrt(2), hlength=4 - np.sqrt(2),
-             plot=False, axes=None):
+             pbirth=None, plength=None,
+             hbirth=None, hlength=None,
+             plot=False,  axes=None):
+
+    if pbirth is None:
+        pbirth  = 0
+    if plength is None and hbirth is None:
+        plength = np.sqrt(2)
+        hbirth  = plength
+    elif plength is None:
+        plength = hbirth
+    elif hbirth  is None:
+        hbirth  = plength
+    if hlength is None:
+        hlength = 2
 
     if axes is not None:
         plot = True
