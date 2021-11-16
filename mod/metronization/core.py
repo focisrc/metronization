@@ -85,6 +85,6 @@ def toposign(img, ngrid,
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
         pcount = count(*p, pbirth, plength)
         hcount = count(*h, hbirth, hlength)
-        out[t] = (pcount, hcount)
+        out[t] = (pcount-hcount, hcount)
 
     return out
