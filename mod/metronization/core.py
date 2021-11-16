@@ -63,7 +63,10 @@ def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     return np.array(np.where(img)).T
 
-def toposign(img, ngrid, plength=1.5, hlength=4, plot=False, axes=None):
+def toposign(img, ngrid,
+             pbirth=0,          plength=np.sqrt(2),
+             hbirth=np.sqrt(2), hlength=4 - np.sqrt(2),
+             plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -80,7 +83,8 @@ def toposign(img, ngrid, plength=1.5, hlength=4, plot=False, axes=None):
     for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
         pts    = metronize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
-        out[t] = (count(*p, plength),
-                  count(*h, hlength))
+        pcount = count(*p, pbirth, plength)
+        hcount = count(*h, hbirth, hlength)
+        out[t] = (pcount, hcount)
 
     return out
