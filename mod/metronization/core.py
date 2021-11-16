@@ -75,8 +75,10 @@ def toposign(img, ngrid,
         if axes is None:
             from matplotlib import pyplot as plt
             fig, axes = plt.subplots(1,2, figsize=(12,6))
-            axes[0].axvline(x=plength, color='k', linestyle=':')
-            axes[1].axvline(x=hlength, color='k', linestyle=':')
+            axes[0].axvline(x=pbirth,         color='gray', linestyle='-',  linewidth=1)
+            axes[0].axvline(x=pbirth+plength, color='gray', linestyle='--', linewidth=1)
+            axes[1].axvline(x=hbirth,         color='gray', linestyle='-',  linewidth=1)
+            axes[1].axvline(x=hbirth+hlength, color='gray', linestyle='--', linewidth=1)
 
     out = {}
 
