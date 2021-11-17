@@ -64,21 +64,17 @@ def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
     return np.array(np.where(img)).T
 
 def toposign(img, ngrid,
-             pbirth=None, plength=None,
-             hbirth=None, hlength=None,
+             pspan=None, pbirth=None, plower=None, pdeath=None, pupper=None,
+             hspan=None, hbirth=None, hlower=None, hdeath=None, hupper=None,
              plot=False,  axes=None):
 
-    if pbirth is None:
-        pbirth  = 0
-    if plength is None and hbirth is None:
-        plength = np.sqrt(2)
-        hbirth  = plength
-    elif plength is None:
-        plength = hbirth
-    elif hbirth  is None:
-        hbirth  = plength
-    if hlength is None:
-        hlength = 2
+    if pdeath is None and hbirth is None:
+        pdeath = np.sqrt(2)
+        hbirth = pdeath
+    elif pdeath is None:
+        pdeath = hbirth
+    elif hbirth is None:
+        hbirth = pdeath
 
     if axes is not None:
         plot = True
@@ -87,18 +83,22 @@ def toposign(img, ngrid,
         if axes is None:
             from matplotlib import pyplot as plt
             fig, axes = plt.subplots(1,2, figsize=(12,6))
-            axes[0].axvline(x=pbirth,         color='gray', linestyle='-',  linewidth=1)
-            axes[0].axvline(x=pbirth+plength, color='gray', linestyle='--', linewidth=1)
-            axes[1].axvline(x=hbirth,         color='gray', linestyle='-',  linewidth=1)
-            axes[1].axvline(x=hbirth+hlength, color='gray', linestyle='--', linewidth=1)
+            if pbirth is not None:
+                axes[0].axvline(x=pbirth, color='gray', linestyle='--', linewidth=1)
+            if pdeath is not None:
+                axes[0].axvline(x=pdeath, color='gray', linestyle='--', linewidth=1)
+            if hlower is not None:
+                axes[1].axvline(x=hlower, color='gray', linestyle='--', linewidth=1)
+            if hdeath is not None:
+                axes[1].axvline(x=hdeath, color='gray', linestyle='--', linewidth=1)
 
     out = {}
 
     for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
         pts    = metronize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
-        pcount = count(*p, pbirth, plength)
-        hcount = count(*h, hbirth, hlength)
+        pcount = count(*p, pspan, pbirth, plower, pdeath, pupper)
+        hcount = count(*h, hspan, hbirth, hlower, hdeath, hupper)
         out[t] = (pcount-hcount, hcount)
 
     return out
