@@ -76,3 +76,30 @@ def count(births, deaths, lifespan=1,
     if upper    is not None: ok &= deaths          <= upper
 
     return np.count_nonzero(ok)
+
+def depth(ts, verbose=False):
+
+    res = []
+
+    tmp = list(ts.items())
+    hole, begin, end = tmp[0][1][1], tmp[0][0], tmp[0][0]
+
+    for k, (p, h) in tmp[1:]:
+        if h != hole:
+            if verbose:
+                print(hole, begin, end)
+            res.append((hole, begin, end))
+
+            hole  = h
+            begin = k
+        end = k
+
+    if verbose:
+        print(hole, begin, end)
+    res.append((hole, begin, end))
+
+    return np.array(res)
+
+def robustness(d, nhole=1):
+    h = d[d[:,0] == nhole]
+    return np.max(h[:,2] - h[:,1])
