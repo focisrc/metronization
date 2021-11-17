@@ -77,32 +77,18 @@ def count(births, deaths, lifespan=1,
 
     return np.count_nonzero(ok)
 
-def edges(ts, verbose=False):
+def edges(ts, nhole=1, verbose=False):
 
-    res = []
+    k = np.array(list(ts.keys()))
+    h = np.array([0] + [v[1] for v in ts.values()]) >= nhole
 
-    tmp = list(ts.items())
-    hole, begin, end = tmp[0][1][1], tmp[0][0], tmp[0][0]
+    return np.vstack((
+        k[h[1:] > h[:-1]], # increasing
+        k[h[1:] < h[:-1]], # decreasing
+    )).T
 
-    for k, (p, h) in tmp[1:]:
-        if h != hole:
-            if verbose:
-                print(hole, begin, end)
-            res.append((hole, begin, end))
-
-            hole  = h
-            begin = k
-        end = k
-
-    if verbose:
-        print(hole, begin, end)
-    res.append((hole, begin, end))
-
-    return np.array(res)
-
-def contrast(d, nhole=1):
-    h = d[d[:,0] == nhole]
-    if len(h) == 0:
+def contrast(e):
+    if len(e) == 0:
         return 0 # no hole
     else:
-        return np.max(h[:,2] - h[:,1])
+        return np.max(e[:,1] - e[:,0])
