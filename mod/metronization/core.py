@@ -98,7 +98,7 @@ def toposign(img, ngrid, threshold=None,
     out = {}
 
     if threshold is None:
-        threshold = np.linspace(0, 1, 10, endpoint=False)
+        threshold = np.arange(10) / 10
     elif not isinstance(threshold, Iterable):
         threshold = [threshold]
 
