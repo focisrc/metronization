@@ -24,7 +24,7 @@ from skimage.morphology import skeletonize
 
 from .utils import rebin, scale_threshold
 from .viz   import metroplot
-from .tda   import tda, count, depth, robustness
+from .tda   import tda, count, edges, contrast
 
 def metronize(img, ngrid, threshold=0.5,
               plot=False, axes=None):

@@ -77,7 +77,7 @@ def count(births, deaths, lifespan=1,
 
     return np.count_nonzero(ok)
 
-def depth(ts, verbose=False):
+def edges(ts, verbose=False):
 
     res = []
 
@@ -100,7 +100,7 @@ def depth(ts, verbose=False):
 
     return np.array(res)
 
-def robustness(d, nhole=1):
+def contrast(d, nhole=1):
     h = d[d[:,0] == nhole]
     if len(h) == 0:
         return 0 # no hole
