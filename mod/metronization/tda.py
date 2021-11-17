@@ -102,4 +102,7 @@ def depth(ts, verbose=False):
 
 def robustness(d, nhole=1):
     h = d[d[:,0] == nhole]
-    return np.max(h[:,2] - h[:,1])
+    if len(h) == 0:
+        return 0 # no hole
+    else:
+        return np.max(h[:,2] - h[:,1])
