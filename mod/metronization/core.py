@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with `metronization`.  If not, see <http://www.gnu.org/licenses/>.
 
+from collections.abc import Iterable
+
 import numpy as np
 
 from skimage.morphology import skeletonize
@@ -24,7 +26,8 @@ from .utils import rebin, scale_threshold
 from .viz   import metroplot
 from .tda   import tda, count
 
-def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
+def metronize(img, ngrid, threshold=0.5,
+              plot=False, axes=None):
 
     if axes is not None:
         plot = True
@@ -63,7 +66,7 @@ def metronize(img, ngrid, threshold=0.5, plot=False, axes=None):
 
     return np.array(np.where(img)).T
 
-def toposign(img, ngrid,
+def toposign(img, ngrid, threshold=None,
              pspan=None, pbirth=None, plower=None, pdeath=None, pupper=None,
              hspan=None, hbirth=None, hlower=None, hdeath=None, hupper=None,
              plot=False,  axes=None):
@@ -94,7 +97,12 @@ def toposign(img, ngrid,
 
     out = {}
 
-    for i, t in enumerate(np.linspace(0, 1, 10, endpoint=False)):
+    if threshold is None:
+        threshold = np.linspace(0, 1, 10, endpoint=False)
+    elif not isinstance(threshold, Iterable):
+        threshold = [threshold]
+
+    for i, t in enumerate(threshold):
         pts    = metronize(img, ngrid, t).astype(float)
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
         pcount = count(*p, pspan, pbirth, plower, pdeath, pupper)
