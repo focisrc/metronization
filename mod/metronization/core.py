@@ -107,6 +107,6 @@ def toposign(img, ngrid, threshold=None,
         p, h   = tda(pts, plot=plot, axes=axes, color=f'C{i}', alpha=0.5)
         pcount = count(*p, pspan, pbirth, plower, pdeath, pupper)
         hcount = count(*h, hspan, hbirth, hlower, hdeath, hupper)
-        out[t] = (pcount-hcount, hcount)
+        out[t] = (pcount, hcount)
 
     return out
