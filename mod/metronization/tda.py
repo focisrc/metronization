@@ -77,7 +77,7 @@ def count(births, deaths, lifespan=1,
 
     return np.count_nonzero(ok)
 
-def edges(ts, nhole=1, verbose=False):
+def jumps(ts, nhole=1, verbose=False):
 
     k = np.array(list(ts.keys()))
     h = np.array([0] + [v[1] for v in ts.values()]) >= nhole
